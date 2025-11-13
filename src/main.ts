@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: false });
 
   app.enableCors({
-    origin: 'https://quantum-proyect.grupo-digital-nextri.com/',
+    origin: 'https://quantum-proyect.grupo-digital-nextri.com',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -14,7 +14,9 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
   });
 
-  const port = 3000;
-  await app.listen(port);
+  const port = process.env.PORT || 3000; // 👈 PUERTO DINÁMICO
+  await app.listen(port, '0.0.0.0'); // 👈 ESCUCHAR GLOBALMENTE
+
+  console.log(`🔥 Backend corriendo en el puerto: ${port}`);
 }
 bootstrap();
