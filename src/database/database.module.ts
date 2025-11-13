@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-const isProd = process.env.NODE_ENV === 'production';
+// Detecta produccion automáticamente en Railway
+const isProd = !!process.env.DATABASE_URL;
 
 @Module({
   imports: [
@@ -28,11 +29,11 @@ const isProd = process.env.NODE_ENV === 'production';
         // 🖥️ DESARROLLO LOCAL
         return {
           type: 'postgres',
-          host: process.env.DB_HOST || 'localhost',
-          port: parseInt(process.env.DB_PORT ?? '5432', 10),
-          username: process.env.DB_USER || 'postgres',
-          password: process.env.DB_PASS || 'admin',
-          database: process.env.DB_NAME || 'GestorTesis',
+          host: process.env.PGHOST || 'localhost',
+          port: parseInt(process.env.PGPORT ?? '5432', 10),
+          username: process.env.PGUSER || 'postgres',
+          password: process.env.PGPASSWORD || 'admin',
+          database: process.env.PGDATABASE || 'GestorTesis',
           autoLoadEntities: true,
           synchronize: true,
         };
